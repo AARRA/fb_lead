@@ -1,11 +1,11 @@
 from django.conf import settings
-from django.http.response import HttpResponseRedirect, HttpResponseForbidden
+from django.http.response import HttpResponseRedirect, HttpResponseForbidden, HttpResponse
 from django.shortcuts import render_to_response
 
 # Create your views here.
 from django.template import RequestContext
 
-from models import FbProjects
+from models import FbProjects, FbPages
 
 
 def index(request):
@@ -14,8 +14,8 @@ def index(request):
     user = request.user
     if not user.is_authenticated:
         return HttpResponseForbidden()
-    my_projects = FbProjects.objects.filter(
-        user=user
+    my_projects = FbPages.objects.filter(
+        account__user=user
     )
 
     return render_to_response(
@@ -36,3 +36,12 @@ def logout(request):
     except KeyError:
         pass
     return HttpResponseRedirect('/')
+
+
+
+def save_mail(request):
+    data = request.POST
+    fb_id = data.get('pk')
+    email = data.get('value')
+    FbPages.objects.filter(fb_id=fb_id).update(email=email)
+    return HttpResponse('')

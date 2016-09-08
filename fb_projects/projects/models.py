@@ -2,14 +2,14 @@
 from __future__ import unicode_literals
 
 from datetime import datetime
-from django.contrib.auth.models import User
 
+from django.contrib.auth.models import User
 from django.db import models
+
 
 # Create your models here.
 
 class FbProjects(models.Model):
-
     user = models.ForeignKey(User)
     domain = models.CharField(max_length=512)
     email = models.CharField(max_length=512)
@@ -22,9 +22,8 @@ class FbProjects(models.Model):
         app_label = 'projects'
 
 
-
 class FbAccounts(models.Model):
-
+    user = models.ForeignKey(User)
     fb_id = models.CharField(max_length=256, db_index=True)
     login = models.CharField(max_length=512)
     password = models.CharField(max_length=512)
@@ -34,20 +33,21 @@ class FbAccounts(models.Model):
 
     app_id = models.CharField(max_length=256)
     app_secret = models.CharField(max_length=128)
-
+    active = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = u"Аккаунты"
         db_table = u'fb_accounts'
         app_label = 'projects'
 
-class FbPages(models.Model):
 
+class FbPages(models.Model):
     account = models.ForeignKey(FbAccounts)
     fb_id = models.CharField(max_length=256, db_index=True)
     name = models.CharField(max_length=512)
     category = models.CharField(max_length=512)
     access_token = models.CharField(max_length=512)
+    email = models.CharField(max_length=512, null=True)
 
     class Meta:
         verbose_name = u"Страницы"
@@ -55,9 +55,7 @@ class FbPages(models.Model):
         app_label = 'projects'
 
 
-
 class FbLeadgenForms(models.Model):
-
     page = models.ForeignKey(FbPages)
     fb_id = models.CharField(max_length=256, db_index=True)
     name = models.CharField(max_length=512)
@@ -68,26 +66,15 @@ class FbLeadgenForms(models.Model):
         app_label = 'projects'
 
 
-
 class FbLeads(models.Model):
-
     form = models.ForeignKey(FbLeadgenForms)
     fb_id = fb_id = models.CharField(max_length=256, db_index=True)
     date_receive = models.DateTimeField(default=datetime.now)
     created_time = models.DateTimeField(default=datetime.now)
     field_data = models.CharField(max_length=4096)
+    email_send = models.DateTimeField(null=True)
 
     class Meta:
         verbose_name = u"Заявка"
         db_table = u'fb_lead'
         app_label = 'projects'
-
-
-
-
-
-
-
-
-
-

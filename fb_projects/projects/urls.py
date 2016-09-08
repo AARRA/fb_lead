@@ -8,5 +8,6 @@ from . import views
 
 urlpatterns = [
                   url(r'^$', views.index, name='index'),
-                  url('^logout$', views.logout, name='logout'),
+                  url('^logout/$', views.logout, name='logout'),
+                  url('^save_mail/$', views.save_mail, name='save_mail'),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
