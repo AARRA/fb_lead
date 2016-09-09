@@ -24,7 +24,7 @@ class FbProjects(models.Model):
 
 class FbAccounts(models.Model):
     user = models.ForeignKey(User)
-    fb_id = models.CharField(max_length=256, db_index=True)
+    fb_id = models.CharField(max_length=128, db_index=True)
     login = models.CharField(max_length=512)
     password = models.CharField(max_length=512)
     token = models.CharField(max_length=512)
@@ -43,7 +43,7 @@ class FbAccounts(models.Model):
 
 class FbPages(models.Model):
     account = models.ForeignKey(FbAccounts)
-    fb_id = models.CharField(max_length=256, db_index=True)
+    fb_id = models.CharField(max_length=128, db_index=True)
     name = models.CharField(max_length=512)
     category = models.CharField(max_length=512)
     access_token = models.CharField(max_length=512)
@@ -57,7 +57,7 @@ class FbPages(models.Model):
 
 class FbLeadgenForms(models.Model):
     page = models.ForeignKey(FbPages)
-    fb_id = models.CharField(max_length=256, db_index=True)
+    fb_id = models.CharField(max_length=128, db_index=True)
     name = models.CharField(max_length=512)
 
     class Meta:
@@ -68,7 +68,7 @@ class FbLeadgenForms(models.Model):
 
 class FbLeads(models.Model):
     form = models.ForeignKey(FbLeadgenForms)
-    fb_id = fb_id = models.CharField(max_length=256, db_index=True)
+    fb_id = fb_id = models.CharField(max_length=128, db_index=True)
     date_receive = models.DateTimeField(default=datetime.now)
     created_time = models.DateTimeField(default=datetime.now)
     field_data = models.CharField(max_length=4096)
