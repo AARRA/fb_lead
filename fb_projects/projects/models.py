@@ -74,6 +74,9 @@ class FbLeads(models.Model):
     field_data = models.CharField(max_length=4096)
     email_send = models.DateTimeField(null=True)
 
+    def __unicode__(self):
+        return '{} {}'.format(self.form.page.name, self.created_time.strftime('%Y-%m-%d %H:%M:%S'))
+
     class Meta:
         verbose_name = u"Заявка"
         db_table = u'fb_lead'
